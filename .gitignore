@@ -17,3 +17,6 @@
 /CleanArchitecture.Services/obj
 /CleanArchitecture.Services.Tests/bin
 /CleanArchitecture.Services.Tests/obj
+/CleanArchitecture.API.Tests/obj
+/CleanArchitecture.Api.IntegrationTests/bin/Debug/net8.0
+/CleanArchitecture.Api.IntegrationTests/obj

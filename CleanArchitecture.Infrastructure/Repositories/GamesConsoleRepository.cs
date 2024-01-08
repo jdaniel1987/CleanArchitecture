@@ -7,27 +7,32 @@ namespace CleanArchitecture.Infrastructure.Repositories;
 
 public class GamesConsoleRepository : IGamesConsoleRepository
 {
-    private readonly DatabaseContext _dbContext;
+    private readonly IDbContextFactory<DatabaseContext> _databaseContextFactory;
     private readonly IMapper _mapper;
 
     public GamesConsoleRepository(
-        DatabaseContext dbContext,
+        IDbContextFactory<DatabaseContext> databaseContextFactory,
         IMapper mapper)
     {
-        _dbContext = dbContext;
+        _databaseContextFactory = databaseContextFactory;
         _mapper = mapper;
     }
 
     public async Task<IReadOnlyCollection<GamesConsole>> GetAllGamesConsoles()
     {
-        var GamesConsoles = await _dbContext.GamesConsoles.ToArrayAsync();
+        await using var databaseContext = await _databaseContextFactory.CreateDbContextAsync();
+        var GamesConsoles = await databaseContext
+            .GamesConsoles
+            .ToArrayAsync();
 
         return _mapper.Map<IReadOnlyCollection<GamesConsole>>(GamesConsoles);
     }
 
     public async Task<GamesConsole> GetGamesConsole(int gamesConsoleId)
     {
-        var gamesConsole = await _dbContext.GamesConsoles
+        await using var databaseContext = await _databaseContextFactory.CreateDbContextAsync();
+        var gamesConsole = await databaseContext
+            .GamesConsoles
             .FirstOrDefaultAsync(c => c.Id == gamesConsoleId);
 
         return _mapper.Map<GamesConsole>(gamesConsole);
@@ -37,13 +42,17 @@ public class GamesConsoleRepository : IGamesConsoleRepository
     {
         var gamesConsoleModel = _mapper.Map<Models.GamesConsole>(gamesConsole);
 
-        await _dbContext.AddAsync(gamesConsoleModel);
-        await _dbContext.SaveChangesAsync();
+        await using var databaseContext = await _databaseContextFactory.CreateDbContextAsync();
+        await databaseContext.AddAsync(gamesConsoleModel);
+        await databaseContext.SaveChangesAsync();
     }
 
     public async Task UpdateGamesConsole(GamesConsole gamesConsole)
     {
-        var existingGamesConsoleModel = await _dbContext.GamesConsoles.FirstOrDefaultAsync(c => c.Id == gamesConsole.Id)
+        await using var databaseContext = await _databaseContextFactory.CreateDbContextAsync();
+        var existingGamesConsoleModel = await databaseContext
+            .GamesConsoles
+            .FirstOrDefaultAsync(c => c.Id == gamesConsole.Id)
             ?? throw new Exception("Games console does not exist.");
 
         var updatedGamesConsole = _mapper.Map<Models.GamesConsole>(gamesConsole);
@@ -51,16 +60,18 @@ public class GamesConsoleRepository : IGamesConsoleRepository
         existingGamesConsoleModel.Name = updatedGamesConsole.Name;
         existingGamesConsoleModel.Manufacturer = updatedGamesConsole.Manufacturer;
         existingGamesConsoleModel.Price = updatedGamesConsole.Price;
-        await _dbContext.SaveChangesAsync();
+        await databaseContext.SaveChangesAsync();
     }
 
     public async Task DeleteGamesConsole(int gamesConsoleId)
     {
-        var gamesConsoleToDelete = await _dbContext.GamesConsoles
-            .FirstOrDefaultAsync(g => g.Id == gamesConsoleId) ?? 
-            throw new Exception("Games console does not exist.");
+        await using var databaseContext = await _databaseContextFactory.CreateDbContextAsync();
+        var gamesConsoleToDelete = await databaseContext
+            .GamesConsoles
+            .FirstOrDefaultAsync(g => g.Id == gamesConsoleId) 
+            ?? throw new Exception("Games console does not exist.");
 
-        _dbContext.GamesConsoles.Remove(gamesConsoleToDelete);
-        await _dbContext.SaveChangesAsync();
+        databaseContext.GamesConsoles.Remove(gamesConsoleToDelete);
+        await databaseContext.SaveChangesAsync();
     }
 }

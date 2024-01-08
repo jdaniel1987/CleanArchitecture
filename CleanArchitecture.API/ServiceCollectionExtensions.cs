@@ -9,9 +9,10 @@ public static class ServiceCollectionExtensions
 {
     public static void AddApi(this IServiceCollection services)
     {
-        services.AddCarter();
+        services.AddControllers();
         services.AddEndpointsApiExplorer();
         services.AddSwaggerGen();
+        services.AddCarter();
 
         services.AddDomain();
         services.AddInfrastructure();

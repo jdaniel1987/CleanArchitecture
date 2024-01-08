@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Http;
-using CleanArchitecture.Domain.EmailSender;
 using CleanArchitecture.Domain.Repositories;
-using CleanArchitecture.Domain.ValueObjects;
 using CleanArchitecture.Services.EventHandlers.GameCreated;
 
 namespace CleanArchitecture.Services.Commands.AddGame;

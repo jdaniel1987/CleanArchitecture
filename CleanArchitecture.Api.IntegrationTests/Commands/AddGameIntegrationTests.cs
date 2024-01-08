@@ -41,7 +41,7 @@ public class AddGameIntegrationTests
             await dbContext.GamesConsoles.AddAsync(existingGamesConsole);
             await dbContext.SaveChangesAsync();
 
-            // Run
+            // Act
             var response = await client.PostAsJsonAsync("api/AddGame", addGameCommand);
 
             // Assert

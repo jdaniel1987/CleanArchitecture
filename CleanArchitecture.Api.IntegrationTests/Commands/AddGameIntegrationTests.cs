@@ -2,14 +2,16 @@ using AutoFixture;
 using AutoFixture.Xunit2;
 using AutoMapper;
 using CleanArchitecture.Infrastructure;
+using CleanArchitecture.Infrastructure.EmailSender;
 using CleanArchitecture.Services.Commands.AddGame;
 using FluentAssertions;
-using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Logging;
 using Moq;
+using System;
 using System.Net;
 using System.Net.Http.Json;
 
@@ -20,10 +22,15 @@ public class AddGameIntegrationTests
     [Theory, AutoData]
     public async Task Should_add_game(
         IFixture fixture,
-        AddGameCommand addGameCommand)
+        AddGameCommand addGameCommand,
+        Mock<ILogger<FakeEmailSender>> mockLogger)
     {
         // Arrange
-        await using var application = new CustomWebApplicationFactory();
+        await using var application = new CustomWebApplicationFactory(services =>
+        {
+            services
+                    .Replace(ServiceDescriptor.Transient(_ => mockLogger.Object));
+        });
         using var client = application.CreateClient();
 
         var dbContextFactory = application.Services.GetService<IDbContextFactory<DatabaseContext>>() !;
@@ -56,5 +63,6 @@ public class AddGameIntegrationTests
             opts => opts
             .Excluding(g => g.Id)
             .Excluding(g => g.GamesConsole));
+        mockLogger.VerifyLog(mock => mock.LogInformation("Sent mail to {Email} ", "random@email.com"), Times.Once);
     }
 }

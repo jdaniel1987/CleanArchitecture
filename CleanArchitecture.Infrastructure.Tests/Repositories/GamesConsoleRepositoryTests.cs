@@ -8,91 +8,76 @@ using GamesConsoleModel = CleanArchitecture.Infrastructure.Models.GamesConsole;
 
 namespace CleanArchitecture.Infrastructure.Tests.Repositories;
 
-public class GamesConsoleRepositoryTests
+public class GamesConsoleRepositoryTests : RepositoryTestsBase<GamesConsoleRepository>
 {
-    public sealed class GetAllGamesConsoles : RepositoryTestsBase<GamesConsoleRepository>
+    [Theory, AutoData]
+    public async Task Should_get_games_consoles(
+        IReadOnlyCollection<GamesConsoleDomain> existingGamesConsoles)
     {
-        [Theory, AutoData]
-        public async Task Should_get_games_consoles(
-            IReadOnlyCollection<GamesConsoleDomain> existingGamesConsoles)
-        {
-            var existingGameModels = Mapper.Map<IReadOnlyCollection<GamesConsoleModel>>(existingGamesConsoles);
-            await DatabaseContext.GamesConsoles.AddRangeAsync(existingGameModels);
-            await DatabaseContext.SaveChangesAsync();
+        var existingGameModels = Mapper.Map<IReadOnlyCollection<GamesConsoleModel>>(existingGamesConsoles);
+        await DatabaseContext.GamesConsoles.AddRangeAsync(existingGameModels);
+        await DatabaseContext.SaveChangesAsync();
 
-            var actual = await RepositoryUnderTesting.GetAllGamesConsoles();
+        var actual = await RepositoryUnderTesting.GetAllGamesConsoles();
 
-            actual.Should().BeEquivalentTo(existingGamesConsoles);
-        }
+        actual.Should().BeEquivalentTo(existingGamesConsoles);
     }
 
-    public sealed class GetGamesConsole : RepositoryTestsBase<GamesConsoleRepository>
+    [Theory, AutoData]
+    public async Task Should_get_games_console_by_id(
+    IReadOnlyCollection<GamesConsoleDomain> existingGamesConsoles)
     {
-        [Theory, AutoData]
-        public async Task Should_get_games_console(
-            IReadOnlyCollection<GamesConsoleDomain> existingGamesConsoles)
-        {
-            var existingGameModels = Mapper.Map<IReadOnlyCollection<GamesConsoleModel>>(existingGamesConsoles);
-            await DatabaseContext.GamesConsoles.AddRangeAsync(existingGameModels);
-            await DatabaseContext.SaveChangesAsync();
+        var existingGameModels = Mapper.Map<IReadOnlyCollection<GamesConsoleModel>>(existingGamesConsoles);
+        await DatabaseContext.GamesConsoles.AddRangeAsync(existingGameModels);
+        await DatabaseContext.SaveChangesAsync();
 
-            var expectedDomain = existingGamesConsoles.First();
-            var actual = await RepositoryUnderTesting.GetGamesConsole(expectedDomain.Id);
-            actual.Should().BeEquivalentTo(expectedDomain);
-        }
+        var expectedDomain = existingGamesConsoles.First();
+        var actual = await RepositoryUnderTesting.GetGamesConsole(expectedDomain.Id);
+        actual.Should().BeEquivalentTo(expectedDomain);
     }
 
-    public sealed class UpdateGamesConsole : RepositoryTestsBase<GamesConsoleRepository>
+    [Theory, AutoData]
+    public async Task Should_update_games_console(
+        GamesConsoleDomain updatedGamesConsole)
     {
-        [Theory, AutoData]
-        public async Task Should_update_games_console(
-            IFixture fixture,
-            GamesConsoleDomain updatedGamesConsole)
-        {
-            var existingGamesConsole = fixture.Build<GamesConsoleModel>()
-                .Without(c => c.Games)
-                .Create();
-            await DatabaseContext.GamesConsoles.AddAsync(existingGamesConsole);
-            await DatabaseContext.SaveChangesAsync();
+        var existingGamesConsole = Fixture.Build<GamesConsoleModel>()
+            .Without(c => c.Games)
+            .Create();
+        await DatabaseContext.GamesConsoles.AddAsync(existingGamesConsole);
+        await DatabaseContext.SaveChangesAsync();
 
-            var updatedGamesConsoleFixed = updatedGamesConsole with { Id = existingGamesConsole.Id };
-            await RepositoryUnderTesting.UpdateGamesConsole(updatedGamesConsoleFixed);
+        var updatedGamesConsoleFixed = updatedGamesConsole with { Id = existingGamesConsole.Id };
+        await RepositoryUnderTesting.UpdateGamesConsole(updatedGamesConsoleFixed);
 
-            var expected = Mapper.Map<GamesConsoleModel>(updatedGamesConsoleFixed);
-            var actual = await DatabaseContext.GamesConsoles.SingleAsync();
-            actual.Should().BeEquivalentTo(expected);
-        }
+        var expected = Mapper.Map<GamesConsoleModel>(updatedGamesConsoleFixed);
+        var actual = await DatabaseContext.GamesConsoles.SingleAsync();
+        actual.Should().BeEquivalentTo(expected);
     }
 
-    public sealed class AddGamesConsole : RepositoryTestsBase<GamesConsoleRepository>
+    [Theory, AutoData]
+    public async Task Should_add_games_console(
+        GamesConsoleDomain newGamesConsoleDomain)
     {
-        [Theory, AutoData]
-        public async Task Should_add_games_console(GamesConsoleDomain newGamesConsoleDomain)
-        {
-            await RepositoryUnderTesting.AddGamesConsole(newGamesConsoleDomain);
+        var expected = Mapper.Map<GamesConsoleModel>(newGamesConsoleDomain);
 
-            var expected = Mapper.Map<GamesConsoleModel>(newGamesConsoleDomain);
-            var actual = await DatabaseContext.GamesConsoles.SingleAsync();
-            actual.Should().BeEquivalentTo(expected);
-        }
+        await RepositoryUnderTesting.AddGamesConsole(newGamesConsoleDomain);
+
+        var actual = await DatabaseContext.GamesConsoles.SingleAsync();
+        actual.Should().BeEquivalentTo(expected);
     }
 
-    public sealed class DeleteGamesConsole : RepositoryTestsBase<GamesConsoleRepository>
+    [Fact]
+    public async Task Should_delete_games_console()
     {
-        [Theory, AutoData]
-        public async Task Should_delete_games_console(
-            IFixture fixture)
-        {
-            var existingGamesConsole = fixture.Build<GamesConsoleModel>()
-                .Without(c => c.Games)
-                .Create();
-            await DatabaseContext.GamesConsoles.AddAsync(existingGamesConsole);
-            await DatabaseContext.SaveChangesAsync();
+        var existingGamesConsole = Fixture.Build<GamesConsoleModel>()
+            .Without(c => c.Games)
+            .Create();
+        await DatabaseContext.GamesConsoles.AddAsync(existingGamesConsole);
+        await DatabaseContext.SaveChangesAsync();
 
-            await RepositoryUnderTesting.DeleteGamesConsole(existingGamesConsole.Id);
+        await RepositoryUnderTesting.DeleteGamesConsole(existingGamesConsole.Id);
 
-            var actual = await DatabaseContext.GamesConsoles.FirstOrDefaultAsync();
-            actual.Should().BeNull();
-        }
+        var actual = await DatabaseContext.GamesConsoles.FirstOrDefaultAsync();
+        actual.Should().BeNull();
     }
 }

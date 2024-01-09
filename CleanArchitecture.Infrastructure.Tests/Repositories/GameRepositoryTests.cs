@@ -14,9 +14,9 @@ using GamesConsoleModel = CleanArchitecture.Infrastructure.Models.GamesConsole;
 
 namespace DomainEventsExample.Infrastructure.Tests.Repositories;
 
-public class GameRepositoryTests
+public class GameRepositoryTests : RepositoryTestsBase<GameRepository>
 {
-    public static async Task<(IReadOnlyCollection<GamesConsoleModel> GamesConsoles, IReadOnlyCollection<GameModel> Games)> 
+    public static async Task<(IReadOnlyCollection<GamesConsoleModel> GamesConsoles, IReadOnlyCollection<GameModel> Games)>
         CreateExistingGames(
         IFixture fixture,
         DatabaseContext dbContext)
@@ -39,140 +39,119 @@ public class GameRepositoryTests
         return (existingGamesConsoles, existingGames);
     }
 
-    public sealed class GetAllGames : RepositoryTestsBase<GameRepository>
+    [Theory, AutoData]
+    public async Task Should_get_games(
+        IFixture fixture)
     {
-        [Theory, AutoData]
-        public async Task Should_get_games(
-            IFixture fixture)
-        {
-            var (existingGamesConsoles, existingGames) = await CreateExistingGames(fixture, DatabaseContext);
+        var (existingGamesConsoles, existingGames) = await CreateExistingGames(fixture, DatabaseContext);
 
-            var actual = await RepositoryUnderTesting.GetAllGames();
+        var actual = await RepositoryUnderTesting.GetAllGames();
 
-            var gamesConsoleById = existingGamesConsoles.ToImmutableDictionary(c => c.Id);
-            var expected = existingGames.Select(g =>
-                new GameWithConsole(
-                    Mapper.Map<GameDomain>(g),
-                    Mapper.Map<GamesConsoleDomain>(gamesConsoleById[g.GamesConsoleId])));
-            actual.Should().BeEquivalentTo(expected);
-        }
+        var gamesConsoleById = existingGamesConsoles.ToImmutableDictionary(c => c.Id);
+        var expected = existingGames.Select(g =>
+            new GameWithConsole(
+                Mapper.Map<GameDomain>(g),
+                Mapper.Map<GamesConsoleDomain>(gamesConsoleById[g.GamesConsoleId])));
+        actual.Should().BeEquivalentTo(expected);
     }
 
-    public sealed class GetAllGamesForConsole : RepositoryTestsBase<GameRepository>
+    [Theory, AutoData]
+    public async Task Should_get_games_for_console(
+        IFixture fixture)
     {
-        [Theory, AutoData]
-        public async Task Should_get_games_for_console(
-            IFixture fixture)
-        {
-            var (_, existingGames) = await CreateExistingGames(fixture, DatabaseContext);
+        var (_, existingGames) = await CreateExistingGames(fixture, DatabaseContext);
 
-            var gamesConsoleToFind = existingGames.First();
-            var actual = await RepositoryUnderTesting.GetAllGamesForConsole(gamesConsoleToFind.GamesConsoleId);
+        var gamesConsoleToFind = existingGames.First();
+        var actual = await RepositoryUnderTesting.GetAllGamesForConsole(gamesConsoleToFind.GamesConsoleId);
 
-            var expectedModels = existingGames.Where(g => g.GamesConsoleId == gamesConsoleToFind.GamesConsoleId);
-            var expected = Mapper.Map<IReadOnlyCollection<GameDomain>>(expectedModels);
-            actual.Should().BeEquivalentTo(expected);
-        }
+        var expectedModels = existingGames.Where(g => g.GamesConsoleId == gamesConsoleToFind.GamesConsoleId);
+        var expected = Mapper.Map<IReadOnlyCollection<GameDomain>>(expectedModels);
+        actual.Should().BeEquivalentTo(expected);
     }
 
-    public sealed class GetGame : RepositoryTestsBase<GameRepository>
+    [Theory, AutoData]
+    public async Task Should_get_game(
+        IFixture fixture)
     {
-        [Theory, AutoData]
-        public async Task Should_get_game(
-            IFixture fixture)
-        {
-            var (_, existingGames) = await CreateExistingGames(fixture, DatabaseContext);
+        var (_, existingGames) = await CreateExistingGames(fixture, DatabaseContext);
 
-            var expectedModel = existingGames.First();
-            var actual = await RepositoryUnderTesting.GetGame(expectedModel.Id);
+        var expectedModel = existingGames.First();
+        var actual = await RepositoryUnderTesting.GetGame(expectedModel.Id);
 
-            var expected = Mapper.Map<GameDomain>(expectedModel);
-            actual.Should().BeEquivalentTo(expected);
-        }
+        var expected = Mapper.Map<GameDomain>(expectedModel);
+        actual.Should().BeEquivalentTo(expected);
     }
 
-    public sealed class GetGamesByName : RepositoryTestsBase<GameRepository>
+    [Theory, AutoData]
+    public async Task Should_get_games_by_name(
+        IFixture fixture)
     {
-        [Theory, AutoData]
-        public async Task Should_get_games_by_name(
-            IFixture fixture)
-        {
-            var (_, existingGames) = await CreateExistingGames(fixture, DatabaseContext);
-            var nameToFind = fixture.Create<string>();
-            var game1ToFind = fixture.Build<GameModel>()
-                .With(g => g.GamesConsoleId, existingGames.First().GamesConsoleId)
-                .With(g => g.Name, $"{fixture.Create<string>()}{nameToFind}{fixture.Create<string>()}")
-                .Without(g => g.GamesConsole)
-                .Create();
-            var game2ToFind = fixture.Build<GameModel>()
-                .With(g => g.GamesConsoleId, existingGames.First().GamesConsoleId)
-                .With(g => g.Name, $"{fixture.Create<string>()}{nameToFind}{fixture.Create<string>()}")
-                .Without(g => g.GamesConsole)
-                .Create();
-            await DatabaseContext.Games.AddAsync(game1ToFind);
-            await DatabaseContext.Games.AddAsync(game2ToFind);
-            await DatabaseContext.SaveChangesAsync();
+        var (_, existingGames) = await CreateExistingGames(fixture, DatabaseContext);
+        var nameToFind = fixture.Create<string>();
+        var game1ToFind = fixture.Build<GameModel>()
+            .With(g => g.GamesConsoleId, existingGames.First().GamesConsoleId)
+            .With(g => g.Name, $"{fixture.Create<string>()}{nameToFind}{fixture.Create<string>()}")
+            .Without(g => g.GamesConsole)
+            .Create();
+        var game2ToFind = fixture.Build<GameModel>()
+            .With(g => g.GamesConsoleId, existingGames.First().GamesConsoleId)
+            .With(g => g.Name, $"{fixture.Create<string>()}{nameToFind}{fixture.Create<string>()}")
+            .Without(g => g.GamesConsole)
+            .Create();
+        await DatabaseContext.Games.AddAsync(game1ToFind);
+        await DatabaseContext.Games.AddAsync(game2ToFind);
+        await DatabaseContext.SaveChangesAsync();
 
-            var actual = await RepositoryUnderTesting.GetGamesByName(nameToFind);
+        var actual = await RepositoryUnderTesting.GetGamesByName(nameToFind);
 
-            var expected = Mapper.Map<IReadOnlyCollection<GameWithConsole>>(new[] { game1ToFind, game2ToFind });
-            actual.Should().BeEquivalentTo(expected);
-        }
+        var expected = Mapper.Map<IReadOnlyCollection<GameWithConsole>>(new[] { game1ToFind, game2ToFind });
+        actual.Should().BeEquivalentTo(expected);
     }
 
-    public sealed class AddGameToConsole : RepositoryTestsBase<GameRepository>
+    [Theory, AutoData]
+    public async Task Should_add_game_to_console(
+        IFixture fixture,
+        GameDomain newGameDomain)
     {
-        [Theory, AutoData]
-        public async Task Should_add_game_to_console(
-            IFixture fixture,
-            GameDomain newGameDomain)
-        {
-            var existingGamesConsoleModel = fixture.Build<GamesConsoleModel>()
-                .Without(c => c.Games)
-                .Create();
-            await DatabaseContext.GamesConsoles.AddAsync(existingGamesConsoleModel);
-            await DatabaseContext.SaveChangesAsync();
+        var existingGamesConsoleModel = fixture.Build<GamesConsoleModel>()
+            .Without(c => c.Games)
+            .Create();
+        await DatabaseContext.GamesConsoles.AddAsync(existingGamesConsoleModel);
+        await DatabaseContext.SaveChangesAsync();
 
-            await RepositoryUnderTesting.AddGameToConsole(existingGamesConsoleModel.Id, newGameDomain);
+        await RepositoryUnderTesting.AddGameToConsole(existingGamesConsoleModel.Id, newGameDomain);
 
-            var expected = Mapper.Map<GameModel>((existingGamesConsoleModel.Id, newGameDomain));
-            var actual = await DatabaseContext.Games.SingleAsync();
-            actual.Should().BeEquivalentTo(expected, opts => opts.Excluding(e => e.GamesConsole));
-        }
+        var expected = Mapper.Map<GameModel>((existingGamesConsoleModel.Id, newGameDomain));
+        var actual = await DatabaseContext.Games.SingleAsync();
+        actual.Should().BeEquivalentTo(expected, opts => opts.Excluding(e => e.GamesConsole));
     }
 
-    public sealed class UpdateGame : RepositoryTestsBase<GameRepository>
+    [Theory, AutoData]
+    public async Task Should_update_game(
+        IFixture fixture,
+        GameDomain updatedGame)
     {
-        [Theory, AutoData]
-        public async Task Should_update_game(
-            IFixture fixture,
-            GameDomain updatedGame)
-        {
-            var (_, existingGames) = await CreateExistingGames(fixture, DatabaseContext);
+        var (_, existingGames) = await CreateExistingGames(fixture, DatabaseContext);
 
-            var existingGameToUpdate = existingGames.First();
-            var updatedGameFixed = updatedGame with { Id = existingGameToUpdate.Id };
-            await RepositoryUnderTesting.UpdateGame(updatedGameFixed, existingGameToUpdate.GamesConsoleId);
+        var existingGameToUpdate = existingGames.First();
+        var updatedGameFixed = updatedGame with { Id = existingGameToUpdate.Id };
+        await RepositoryUnderTesting.UpdateGame(updatedGameFixed, existingGameToUpdate.GamesConsoleId);
 
-            var expected = Mapper.Map<GameModel>((existingGameToUpdate.GamesConsoleId, updatedGameFixed));
-            var actual = await DatabaseContext.Games.FirstAsync();
-            actual.Should().BeEquivalentTo(expected, opts => opts.Excluding(e => e.GamesConsole));
-        }
+        var expected = Mapper.Map<GameModel>((existingGameToUpdate.GamesConsoleId, updatedGameFixed));
+        var actual = await DatabaseContext.Games.FirstAsync();
+        actual.Should().BeEquivalentTo(expected, opts => opts.Excluding(e => e.GamesConsole));
     }
 
-    public sealed class DeleteGame : RepositoryTestsBase<GameRepository>
+    [Theory, AutoData]
+    public async Task Should_delete_game(
+        IFixture fixture)
     {
-        [Theory, AutoData]
-        public async Task Should_delete_game(
-            IFixture fixture)
-        {
-            var (_, existingGames) = await CreateExistingGames(fixture, DatabaseContext);
+        var (_, existingGames) = await CreateExistingGames(fixture, DatabaseContext);
 
-            var gameToDelete = existingGames.First();
-            await RepositoryUnderTesting.DeleteGame(gameToDelete.Id);
+        var gameToDelete = existingGames.First();
+        await RepositoryUnderTesting.DeleteGame(gameToDelete.Id);
 
-            var actual = await DatabaseContext.Games.Where(g => g.Id == gameToDelete.Id).ToArrayAsync();
-            actual.Should().BeEmpty();
-        }
+        var actual = await DatabaseContext.Games.Where(g => g.Id == gameToDelete.Id).ToArrayAsync();
+        actual.Should().BeEmpty();
     }
 }

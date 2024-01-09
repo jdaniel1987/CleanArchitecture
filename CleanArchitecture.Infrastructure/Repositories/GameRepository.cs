@@ -21,7 +21,7 @@ public class GameRepository : IGameRepository
 
     public async Task<IReadOnlyCollection<GameWithConsole>> GetAllGames()
     {
-        await using var databaseContext = await _databaseContextFactory.CreateDbContextAsync();
+        var databaseContext = await _databaseContextFactory.CreateDbContextAsync();
         var gameModels = await databaseContext
             .Games
             .Include(g => g.GamesConsole)
@@ -32,7 +32,7 @@ public class GameRepository : IGameRepository
 
     public async Task<IReadOnlyCollection<Game>> GetAllGamesForConsole(int gamesConsoleId)
     {
-        await using var databaseContext = await _databaseContextFactory.CreateDbContextAsync();
+        var databaseContext = await _databaseContextFactory.CreateDbContextAsync();
         var gameConsole = await databaseContext
             .GamesConsoles
             .FirstOrDefaultAsync(c => c.Id == gamesConsoleId) 
@@ -48,7 +48,7 @@ public class GameRepository : IGameRepository
 
     public async Task<Game> GetGame(int gameId)
     {
-        await using var databaseContext = await _databaseContextFactory.CreateDbContextAsync();
+        var databaseContext = await _databaseContextFactory.CreateDbContextAsync();
         var gameModel = await databaseContext
             .Games
             .FirstOrDefaultAsync(x => x.Id == gameId);
@@ -60,7 +60,7 @@ public class GameRepository : IGameRepository
 
     public async Task<IReadOnlyCollection<GameWithConsole>> GetGamesByName(string gameName)
     {
-        await using var databaseContext = await _databaseContextFactory.CreateDbContextAsync();
+        var databaseContext = await _databaseContextFactory.CreateDbContextAsync();
         var gameModels = await databaseContext
             .Games
             .Where(g => g.Name.Contains(gameName, StringComparison.OrdinalIgnoreCase))
@@ -72,7 +72,7 @@ public class GameRepository : IGameRepository
 
     public async Task AddGameToConsole(int gamesConsoleId, Game game)
     {
-        await using var databaseContext = await _databaseContextFactory.CreateDbContextAsync();
+        var databaseContext = await _databaseContextFactory.CreateDbContextAsync();
         var console = await databaseContext
             .GamesConsoles
             .SingleOrDefaultAsync(c => c.Id == gamesConsoleId)
@@ -85,7 +85,7 @@ public class GameRepository : IGameRepository
 
     public async Task DeleteGame(Game game)
     {
-        await using var databaseContext = await _databaseContextFactory.CreateDbContextAsync();
+        var databaseContext = await _databaseContextFactory.CreateDbContextAsync();
         var gameModel = await databaseContext
             .Games
             .FirstOrDefaultAsync(g => g.Id == game.Id) 
@@ -97,7 +97,7 @@ public class GameRepository : IGameRepository
 
     public async Task UpdateGame(Game game, int gamesConsoleId)
     {
-        await using var databaseContext = await _databaseContextFactory.CreateDbContextAsync();
+        var databaseContext = await _databaseContextFactory.CreateDbContextAsync();
         var existingGameModel = await databaseContext
             .Games
             .FirstOrDefaultAsync(c => c.Id == game.Id)
@@ -114,7 +114,7 @@ public class GameRepository : IGameRepository
 
     public async Task DeleteGame(int gameId)
     {
-        await using var databaseContext = await _databaseContextFactory.CreateDbContextAsync();
+        var databaseContext = await _databaseContextFactory.CreateDbContextAsync();
         var gameToDelete = await databaseContext
             .Games
             .FirstOrDefaultAsync(g => g.Id == gameId) 

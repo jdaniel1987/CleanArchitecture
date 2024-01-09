@@ -20,7 +20,7 @@ public class GamesConsoleRepository : IGamesConsoleRepository
 
     public async Task<IReadOnlyCollection<GamesConsole>> GetAllGamesConsoles()
     {
-        await using var databaseContext = await _databaseContextFactory.CreateDbContextAsync();
+        var databaseContext = await _databaseContextFactory.CreateDbContextAsync();
         var GamesConsoles = await databaseContext
             .GamesConsoles
             .ToArrayAsync();
@@ -30,7 +30,7 @@ public class GamesConsoleRepository : IGamesConsoleRepository
 
     public async Task<GamesConsole> GetGamesConsole(int gamesConsoleId)
     {
-        await using var databaseContext = await _databaseContextFactory.CreateDbContextAsync();
+        var databaseContext = await _databaseContextFactory.CreateDbContextAsync();
         var gamesConsole = await databaseContext
             .GamesConsoles
             .FirstOrDefaultAsync(c => c.Id == gamesConsoleId);
@@ -42,14 +42,14 @@ public class GamesConsoleRepository : IGamesConsoleRepository
     {
         var gamesConsoleModel = _mapper.Map<Models.GamesConsole>(gamesConsole);
 
-        await using var databaseContext = await _databaseContextFactory.CreateDbContextAsync();
+        var databaseContext = await _databaseContextFactory.CreateDbContextAsync();
         await databaseContext.AddAsync(gamesConsoleModel);
         await databaseContext.SaveChangesAsync();
     }
 
     public async Task UpdateGamesConsole(GamesConsole gamesConsole)
     {
-        await using var databaseContext = await _databaseContextFactory.CreateDbContextAsync();
+        var databaseContext = await _databaseContextFactory.CreateDbContextAsync();
         var existingGamesConsoleModel = await databaseContext
             .GamesConsoles
             .FirstOrDefaultAsync(c => c.Id == gamesConsole.Id)
@@ -65,7 +65,7 @@ public class GamesConsoleRepository : IGamesConsoleRepository
 
     public async Task DeleteGamesConsole(int gamesConsoleId)
     {
-        await using var databaseContext = await _databaseContextFactory.CreateDbContextAsync();
+       var databaseContext = await _databaseContextFactory.CreateDbContextAsync();
         var gamesConsoleToDelete = await databaseContext
             .GamesConsoles
             .FirstOrDefaultAsync(g => g.Id == gamesConsoleId) 

@@ -39,11 +39,10 @@ public class GameRepositoryTests : RepositoryTestsBase<GameRepository>
         return (existingGamesConsoles, existingGames);
     }
 
-    [Theory, AutoData]
-    public async Task Should_get_games(
-        IFixture fixture)
+    [Fact, AutoData]
+    public async Task Should_get_games()
     {
-        var (existingGamesConsoles, existingGames) = await CreateExistingGames(fixture, DatabaseContext);
+        var (existingGamesConsoles, existingGames) = await CreateExistingGames(Fixture, DatabaseContext);
 
         var actual = await RepositoryUnderTesting.GetAllGames();
 
@@ -55,11 +54,10 @@ public class GameRepositoryTests : RepositoryTestsBase<GameRepository>
         actual.Should().BeEquivalentTo(expected);
     }
 
-    [Theory, AutoData]
-    public async Task Should_get_games_for_console(
-        IFixture fixture)
+    [Fact, AutoData]
+    public async Task Should_get_games_for_console()
     {
-        var (_, existingGames) = await CreateExistingGames(fixture, DatabaseContext);
+        var (_, existingGames) = await CreateExistingGames(Fixture, DatabaseContext);
 
         var gamesConsoleToFind = existingGames.First();
         var actual = await RepositoryUnderTesting.GetAllGamesForConsole(gamesConsoleToFind.GamesConsoleId);
@@ -69,11 +67,10 @@ public class GameRepositoryTests : RepositoryTestsBase<GameRepository>
         actual.Should().BeEquivalentTo(expected);
     }
 
-    [Theory, AutoData]
-    public async Task Should_get_game(
-        IFixture fixture)
+    [Fact, AutoData]
+    public async Task Should_get_game()
     {
-        var (_, existingGames) = await CreateExistingGames(fixture, DatabaseContext);
+        var (_, existingGames) = await CreateExistingGames(Fixture, DatabaseContext);
 
         var expectedModel = existingGames.First();
         var actual = await RepositoryUnderTesting.GetGame(expectedModel.Id);
@@ -83,19 +80,18 @@ public class GameRepositoryTests : RepositoryTestsBase<GameRepository>
     }
 
     [Theory, AutoData]
-    public async Task Should_get_games_by_name(
-        IFixture fixture)
+    public async Task Should_get_games_by_name()
     {
-        var (_, existingGames) = await CreateExistingGames(fixture, DatabaseContext);
-        var nameToFind = fixture.Create<string>();
-        var game1ToFind = fixture.Build<GameModel>()
+        var (_, existingGames) = await CreateExistingGames(Fixture, DatabaseContext);
+        var nameToFind = Fixture.Create<string>();
+        var game1ToFind = Fixture.Build<GameModel>()
             .With(g => g.GamesConsoleId, existingGames.First().GamesConsoleId)
-            .With(g => g.Name, $"{fixture.Create<string>()}{nameToFind}{fixture.Create<string>()}")
+            .With(g => g.Name, $"{Fixture.Create<string>()}{nameToFind}{Fixture.Create<string>()}")
             .Without(g => g.GamesConsole)
             .Create();
-        var game2ToFind = fixture.Build<GameModel>()
+        var game2ToFind = Fixture.Build<GameModel>()
             .With(g => g.GamesConsoleId, existingGames.First().GamesConsoleId)
-            .With(g => g.Name, $"{fixture.Create<string>()}{nameToFind}{fixture.Create<string>()}")
+            .With(g => g.Name, $"{Fixture.Create<string>()}{nameToFind}{Fixture.Create<string>()}")
             .Without(g => g.GamesConsole)
             .Create();
         await DatabaseContext.Games.AddAsync(game1ToFind);
@@ -110,10 +106,9 @@ public class GameRepositoryTests : RepositoryTestsBase<GameRepository>
 
     [Theory, AutoData]
     public async Task Should_add_game_to_console(
-        IFixture fixture,
         GameDomain newGameDomain)
     {
-        var existingGamesConsoleModel = fixture.Build<GamesConsoleModel>()
+        var existingGamesConsoleModel = Fixture.Build<GamesConsoleModel>()
             .Without(c => c.Games)
             .Create();
         await DatabaseContext.GamesConsoles.AddAsync(existingGamesConsoleModel);
@@ -128,10 +123,9 @@ public class GameRepositoryTests : RepositoryTestsBase<GameRepository>
 
     [Theory, AutoData]
     public async Task Should_update_game(
-        IFixture fixture,
         GameDomain updatedGame)
     {
-        var (_, existingGames) = await CreateExistingGames(fixture, DatabaseContext);
+        var (_, existingGames) = await CreateExistingGames(Fixture, DatabaseContext);
 
         var existingGameToUpdate = existingGames.First();
         var updatedGameFixed = updatedGame with { Id = existingGameToUpdate.Id };
@@ -143,10 +137,9 @@ public class GameRepositoryTests : RepositoryTestsBase<GameRepository>
     }
 
     [Theory, AutoData]
-    public async Task Should_delete_game(
-        IFixture fixture)
+    public async Task Should_delete_game()
     {
-        var (_, existingGames) = await CreateExistingGames(fixture, DatabaseContext);
+        var (_, existingGames) = await CreateExistingGames(Fixture, DatabaseContext);
 
         var gameToDelete = existingGames.First();
         await RepositoryUnderTesting.DeleteGame(gameToDelete.Id);

@@ -1,13 +1,5 @@
-using AutoFixture;
-using AutoFixture.Xunit2;
-using CleanArchitecture.Infrastructure.EmailSender;
 using CleanArchitecture.Services.Commands.AddGame;
-using FluentAssertions;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Moq;
-using System.Net;
-using System.Net.Http.Json;
 
 namespace CleanArchitecture.API.IntegrationTests.Commands;
 

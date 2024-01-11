@@ -1,12 +1,9 @@
-﻿using AutoFixture;
-using AutoMapper;
+﻿using AutoMapper;
 using CleanArchitecture.Infrastructure;
 using CleanArchitecture.Infrastructure.EmailSender;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Logging;
-using Moq;
 
 namespace CleanArchitecture.API.IntegrationTests;
 

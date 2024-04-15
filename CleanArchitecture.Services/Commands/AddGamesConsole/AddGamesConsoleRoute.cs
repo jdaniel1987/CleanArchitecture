@@ -12,7 +12,7 @@ public class AddGamesConsoleRoute : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         // Carter will create this URL for the API project, so we can split each route for each command
-        app.MapPost("api/AddConsole", async (IMediator mediator, AddGamesConsoleCommand command) =>
+        app.MapPost("api/AddGamesConsole", async (IMediator mediator, AddGamesConsoleCommand command) =>
         {
             return await mediator.Send(command);
         })

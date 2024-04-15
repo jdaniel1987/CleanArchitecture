@@ -2,17 +2,17 @@ using CleanArchitecture.Services.Commands.AddGamesConsole;
 
 namespace CleanArchitecture.API.IntegrationTests.Commands;
 
-public class AddGamesConsoleIntegrationTests : BaseIntegrationTests
+public class AddGamesConsoleIntegrationTests : ApiBaseTests
 {
     [Theory, AutoData]
-    public async Task Should_add_game_console(
+    public async Task Should_add_games_console(
         AddGamesConsoleCommand addGamesConsoleCommand)
     {
         // Act
-        var response = await _httpClient.PostAsJsonAsync("api/AddGamesConsole", addGamesConsoleCommand);
+        var response = await ApiClient.PostAsJsonAsync("api/AddGamesConsole", addGamesConsoleCommand);
 
         // Assert
-        var actual = await _databaseContext.GamesConsoles.SingleAsync();
+        var actual = await DbContext.GamesConsoles.SingleAsync(c => c.Name == addGamesConsoleCommand.Name);
         var expected = new Infrastructure.Models.GamesConsole()
         {
             Manufacturer = addGamesConsoleCommand.Manufacturer,

@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 
 namespace CleanArchitecture.API.IntegrationTests.Commands;
 
-public class AddGameIntegrationTests : BaseIntegrationTests
+public class AddGameIntegrationTests : ApiBaseTests
 {
     [Theory, AutoData]
     public async Task Should_add_game(
@@ -15,14 +15,14 @@ public class AddGameIntegrationTests : BaseIntegrationTests
             .With(c => c.Id, addGameCommand.GamesConsoleId)
             .Without(c => c.Games)
             .Create();
-        await _databaseContext.GamesConsoles.AddAsync(existingGamesConsole);
-        await _databaseContext.SaveChangesAsync();
+        await DbContext.GamesConsoles.AddAsync(existingGamesConsole);
+        await DbContext.SaveChangesAsync();
 
         // Act
-        var response = await _httpClient.PostAsJsonAsync("api/AddGame", addGameCommand);
+        var response = await ApiClient.PostAsJsonAsync("api/AddGame", addGameCommand);
 
         // Assert
-        var actual = await _databaseContext.Games.SingleAsync(g => g.GamesConsoleId == existingGamesConsole.Id);
+        var actual = await DbContext.Games.SingleAsync(g => g.GamesConsoleId == existingGamesConsole.Id);
         var expected = new Infrastructure.Models.Game()
         {
             Publisher = addGameCommand.Publisher,
@@ -36,6 +36,6 @@ public class AddGameIntegrationTests : BaseIntegrationTests
             opts => opts
             .Excluding(g => g.Id)
             .Excluding(g => g.GamesConsole));
-        _mockEmailLogger.VerifyLog(mock => mock.LogInformation("Sent mail to {Email} ", "random@email.com"), Times.Once);
+        MockEmailLogger.VerifyLog(mock => mock.LogInformation("Sent mail to {Email} ", "random@email.com"), Times.Once);
     }
 }

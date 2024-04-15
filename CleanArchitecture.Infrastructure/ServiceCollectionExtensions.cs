@@ -17,8 +17,9 @@ public static class ServiceCollectionExtensions
         services.AddTransient<IGameRepository, GameRepository>();
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
+        var dbName = nameof(DatabaseContext);
         services.AddDbContextFactory<DatabaseContext>(options => options
             .UseLazyLoadingProxies()
-            .UseInMemoryDatabase(nameof(DatabaseContext)));
+            .UseInMemoryDatabase(dbName));
     }
 }

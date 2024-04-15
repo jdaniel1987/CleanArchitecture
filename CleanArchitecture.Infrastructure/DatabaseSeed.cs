@@ -2,9 +2,9 @@
 
 namespace CleanArchitecture.Infrastructure;
 
-public class DatabaseSeed
+public static class DatabaseSeed
 {
-    public void SeedData(DatabaseContext context)
+    public static void SeedData(DatabaseContext context)
     {
         //Seeding Consoles
         context.GamesConsoles.Add(new GamesConsole

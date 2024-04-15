@@ -32,7 +32,7 @@ public class Program
         using (var scope = app.Services.CreateScope())
         {
             var dataContext = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
-            new DatabaseSeed().SeedData(dataContext);
+            DatabaseSeed.SeedData(dataContext);
         }
         //------------------------------------------------------
 

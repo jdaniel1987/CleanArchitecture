@@ -36,4 +36,24 @@ public class AddGameHandlerTests
         gameRepositoryMock.Verify(x => x.AddGameToConsole(addGameCommand.GamesConsoleId, mappedGame), Times.Once);
         result.Should().BeOfType<Created>();
     }
+
+    [Theory, AutoData]
+    public async Task Handle_should_not_add_game_when_games_console_doesnt_exist(
+    Mock<IGameRepository> gameRepositoryMock,
+    Mock<IMapper> mapperMock,
+    Mock<IPublisher> publisherMock,
+    AddGameCommand addGameCommand,
+    Game mappedGame)
+    {
+        var handler = new AddGameHandler(
+            gameRepositoryMock.Object,
+            mapperMock.Object,
+            publisherMock.Object
+        );
+        mapperMock.Setup(x => x.Map<Game>(addGameCommand)).Returns(mappedGame);
+
+        var action  = async () => await handler.Handle(addGameCommand, CancellationToken.None);
+
+        await action.Should().ThrowAsync<Exception>("Console does not exist.");
+    }
 }

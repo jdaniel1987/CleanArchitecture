@@ -1,6 +1,6 @@
 namespace CleanArchitecture.API.IntegrationTests.Commands;
 
-public class DeleteGameIntegrationTests : BaseIntegrationTests
+public class DeleteGameIntegrationTests : ApiBaseTests
 {
     [Theory, AutoData]
     public async Task Should_delete_game(
@@ -12,14 +12,14 @@ public class DeleteGameIntegrationTests : BaseIntegrationTests
             .With(c => c.Id, gameIdToDelete)
             .Without(c => c.GamesConsole)
             .Create();
-        await _databaseContext.Games.AddAsync(existingGame);
-        await _databaseContext.SaveChangesAsync();
+        await DbContext.Games.AddAsync(existingGame);
+        await DbContext.SaveChangesAsync();
 
         // Act
-        var response = await _httpClient.DeleteAsync($"api/DeleteGame/{gameIdToDelete}");
+        var response = await ApiClient.DeleteAsync($"api/DeleteGame/{gameIdToDelete}");
 
         // Assert
-        var actual = await _databaseContext.Games.Where(g => g.Id == gameIdToDelete).ToArrayAsync();
+        var actual = await DbContext.Games.Where(g => g.Id == gameIdToDelete).ToArrayAsync();
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);
         actual.Should().BeEmpty();

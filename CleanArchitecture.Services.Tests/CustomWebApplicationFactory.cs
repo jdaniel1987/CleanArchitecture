@@ -1,11 +1,7 @@
-﻿using AutoFixture;
-using CleanArchitecture.API;
-using MediatR;
+﻿using CleanArchitecture.API;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Moq;
 
 namespace CleanArchitecture.Services.Tests;
 

@@ -1,4 +1,5 @@
-﻿using CleanArchitecture.API.IntegrationTests.Configuration;
+﻿using AutoMapper;
+using CleanArchitecture.API.IntegrationTests.Configuration;
 using CleanArchitecture.Infrastructure;
 using CleanArchitecture.Infrastructure.EmailSender;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,11 +21,14 @@ public abstract class ApiBaseTests
         ApiClient = app.CreateClient();
         DbContext = scopeProvider.GetService<DatabaseContext>()!;
         //DatabaseSeed.SeedData(DbContext);
+        Mapper = scopeProvider.GetService<IMapper>()!;
     }
 
     public HttpClient ApiClient { get; init; }
 
     public DatabaseContext DbContext { get; init; }
+
+    public IMapper Mapper { get; init; }
 
     public Mock<ILogger<FakeEmailSender>> MockEmailLogger  { get; init; }
 }

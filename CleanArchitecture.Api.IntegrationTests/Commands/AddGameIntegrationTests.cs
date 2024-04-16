@@ -18,11 +18,6 @@ public class AddGameIntegrationTests : ApiBaseTests
         await DbContext.GamesConsoles.AddAsync(existingGamesConsole);
         await DbContext.SaveChangesAsync();
 
-        // Act
-        var response = await ApiClient.PostAsJsonAsync("api/AddGame", addGameCommand);
-
-        // Assert
-        var actual = await DbContext.Games.SingleAsync(g => g.GamesConsoleId == existingGamesConsole.Id);
         var expected = new Infrastructure.Models.Game()
         {
             Publisher = addGameCommand.Publisher,
@@ -30,6 +25,12 @@ public class AddGameIntegrationTests : ApiBaseTests
             Name = addGameCommand.Name,
             Price = addGameCommand.Price,
         };
+
+        // Act
+        var response = await ApiClient.PostAsJsonAsync("api/AddGame", addGameCommand);
+
+        // Assert
+        var actual = await DbContext.Games.SingleAsync(g => g.GamesConsoleId == existingGamesConsole.Id);
 
         response.StatusCode.Should().Be(HttpStatusCode.Created);
         actual.Should().BeEquivalentTo(expected, 

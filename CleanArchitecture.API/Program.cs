@@ -29,8 +29,9 @@ public class Program
         //------------------------------------------------------
         app.MapCarter(); // Carter will take care of mapping all API routes that are specified in Services
 
-        using (var scope = app.Services.CreateScope())
+        if (app.Environment.EnvironmentName != "Test")
         {
+            using var scope = app.Services.CreateScope();
             var dataContext = scope.ServiceProvider.GetRequiredService<DatabaseContext>();
             DatabaseSeed.SeedData(dataContext);
         }

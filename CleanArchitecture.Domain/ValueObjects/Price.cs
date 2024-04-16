@@ -1,9 +1,12 @@
-﻿namespace CleanArchitecture.Domain.ValueObjects;
+﻿using System.Text.Json.Serialization;
+
+namespace CleanArchitecture.Domain.ValueObjects;
 
 public record Price
 {
     public double Value { get; init; }
 
+    [JsonConstructor]
     internal Price(double value)
     {
         Value = value;

@@ -20,8 +20,9 @@ public class UpdateGamesConsoleIntegrationTests : ApiBaseTests
             .Build<UpdateGamesConsoleCommand>()
             .With(c => c.Id, existingGamesConsole.Id)
             .Create();
+
         var gamesConsoleUpdatedDomain = Mapper.Map<Domain.Entities.GamesConsole>(updateGamesConsoleCommand);
-        var gamesConsoleUpdatedModel = Mapper.Map<Infrastructure.Models.GamesConsole>(gamesConsoleUpdatedDomain);
+        var expected = Mapper.Map<Infrastructure.Models.GamesConsole>(gamesConsoleUpdatedDomain);
 
         // Act
         var response = await ApiClient.PutAsJsonAsync($"api/UpdateGamesConsole", updateGamesConsoleCommand);
@@ -34,6 +35,6 @@ public class UpdateGamesConsoleIntegrationTests : ApiBaseTests
             .SingleAsync();
 
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        actual.Should().BeEquivalentTo(gamesConsoleUpdatedModel);
+        actual.Should().BeEquivalentTo(expected);
     }
 }

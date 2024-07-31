@@ -20,6 +20,7 @@ public class AddGameIntegrationTests : ApiBaseTests
 
         var expected = new Infrastructure.Models.Game()
         {
+            Id = 1,
             Publisher = addGameCommand.Publisher,
             GamesConsoleId = addGameCommand.GamesConsoleId,
             Name = addGameCommand.Name,

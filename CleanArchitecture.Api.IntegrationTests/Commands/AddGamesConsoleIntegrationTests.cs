@@ -13,6 +13,7 @@ public class AddGamesConsoleIntegrationTests : ApiBaseTests
 
         var expected = new Infrastructure.Models.GamesConsole()
         {
+            Id = 1,
             Manufacturer = addGamesConsoleCommand.Manufacturer,
             Name = addGamesConsoleCommand.Name,
             Price = addGamesConsoleCommand.Price,

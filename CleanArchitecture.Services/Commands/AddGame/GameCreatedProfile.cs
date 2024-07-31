@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using CleanArchitecture.Domain.Entities;
-using CleanArchitecture.Services.EventHandlers.GameCreated;
+using CleanArchitecture.Services.Events;
 
 namespace CleanArchitecture.Services.Commands.AddGame;
 

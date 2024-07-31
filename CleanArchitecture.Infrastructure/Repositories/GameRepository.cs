@@ -6,18 +6,12 @@ using CleanArchitecture.Domain.Repositories;
 
 namespace CleanArchitecture.Infrastructure.Repositories;
 
-public class GameRepository : IGameRepository
+public class GameRepository(
+    IDbContextFactory<DatabaseContext> databaseContextFactory,
+    IMapper mapper) : IGameRepository
 {
-    private readonly IDbContextFactory<DatabaseContext> _databaseContextFactory;
-    private readonly IMapper _mapper;
-
-    public GameRepository(
-        IDbContextFactory<DatabaseContext> databaseContextFactory,
-        IMapper mapper)
-    {
-        _databaseContextFactory = databaseContextFactory;
-        _mapper = mapper;
-    }
+    private readonly IDbContextFactory<DatabaseContext> _databaseContextFactory = databaseContextFactory;
+    private readonly IMapper _mapper = mapper;
 
     public async Task<IReadOnlyCollection<GameWithConsole>> GetAllGames()
     {

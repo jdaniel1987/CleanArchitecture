@@ -2,6 +2,7 @@
 using Moq;
 using CleanArchitecture.Domain.EmailSender;
 using CleanArchitecture.Domain.ValueObjects;
+using CleanArchitecture.Services.Events;
 
 namespace CleanArchitecture.Services.EventHandlers.GameCreated;
 

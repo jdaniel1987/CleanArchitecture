@@ -1,7 +1,7 @@
 ﻿using MediatR;
 using CleanArchitecture.Domain.Entities;
 
-namespace CleanArchitecture.Services.EventHandlers.GameCreated;
+namespace CleanArchitecture.Services.Events;
 
 public record GameCreatedEvent(
     Game Game,

@@ -7,7 +7,7 @@ using Moq;
 using CleanArchitecture.Domain.Entities;
 using CleanArchitecture.Domain.Repositories;
 using CleanArchitecture.Services.Commands.AddGame;
-using CleanArchitecture.Services.EventHandlers.GameCreated;
+using CleanArchitecture.Services.Events;
 
 namespace CleanArchitecture.Services.Tests.Commands.AddGame;
 

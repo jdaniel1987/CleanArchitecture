@@ -3,14 +3,9 @@ using CleanArchitecture.Domain.EmailSender;
 
 namespace CleanArchitecture.Infrastructure.EmailSender;
 
-public class FakeEmailSender : IEmailSender
+public class FakeEmailSender(ILogger<FakeEmailSender> logger) : IEmailSender
 {
-    private readonly ILogger<FakeEmailSender> _logger;
-
-    public FakeEmailSender(ILogger<FakeEmailSender> logger)
-    {
-        _logger = logger;
-    }
+    private readonly ILogger<FakeEmailSender> _logger = logger;
 
     public async Task SendNotification(string email, string subject, string body)
     {

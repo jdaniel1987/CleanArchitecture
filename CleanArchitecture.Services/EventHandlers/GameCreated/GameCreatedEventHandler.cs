@@ -1,18 +1,14 @@
 ﻿using MediatR;
 using CleanArchitecture.Domain.EmailSender;
 using CleanArchitecture.Domain.ValueObjects;
+using CleanArchitecture.Services.Events;
 
 namespace CleanArchitecture.Services.EventHandlers.GameCreated;
 
-public class GameCreatedEventHandler : INotificationHandler<GameCreatedEvent>
+public class GameCreatedEventHandler(
+    IEmailSender emailSender) : INotificationHandler<GameCreatedEvent>
 {
-    private readonly IEmailSender _emailSender;
-
-    public GameCreatedEventHandler(
-        IEmailSender emailSender)
-    {
-        _emailSender = emailSender;
-    }
+    private readonly IEmailSender _emailSender = emailSender;
 
     public async Task Handle(GameCreatedEvent notification, CancellationToken cancellationToken)
     {

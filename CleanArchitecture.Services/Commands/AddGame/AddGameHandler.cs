@@ -2,7 +2,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using CleanArchitecture.Domain.Repositories;
-using CleanArchitecture.Services.EventHandlers.GameCreated;
+using CleanArchitecture.Services.Events;
 
 namespace CleanArchitecture.Services.Commands.AddGame;
 

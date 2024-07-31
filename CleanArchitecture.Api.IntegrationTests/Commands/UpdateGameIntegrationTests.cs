@@ -1,5 +1,4 @@
 using CleanArchitecture.Services.Commands.UpdateGame;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace CleanArchitecture.API.IntegrationTests.Commands;
 

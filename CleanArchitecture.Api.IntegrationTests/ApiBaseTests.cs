@@ -30,5 +30,5 @@ public abstract class ApiBaseTests
 
     public IMapper Mapper { get; init; }
 
-    public Mock<ILogger<FakeEmailSender>> MockEmailLogger  { get; init; }
+    public Mock<ILogger<FakeEmailSender>> MockEmailLogger { get; init; }
 }

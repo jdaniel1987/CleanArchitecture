@@ -1,9 +1,9 @@
 ﻿using AutoFixture.Xunit2;
+using CleanArchitecture.Domain.Repositories;
+using CleanArchitecture.Services.Commands.DeleteGamesConsole;
 using FluentAssertions;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Moq;
-using CleanArchitecture.Domain.Repositories;
-using CleanArchitecture.Services.Commands.DeleteGamesConsole;
 
 namespace CleanArchitecture.Services.Tests.Commands.DeleteGamesConsole;
 

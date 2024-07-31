@@ -1,5 +1,5 @@
-﻿using Microsoft.Extensions.Logging;
-using CleanArchitecture.Domain.EmailSender;
+﻿using CleanArchitecture.Domain.EmailSender;
+using Microsoft.Extensions.Logging;
 
 namespace CleanArchitecture.Infrastructure.EmailSender;
 

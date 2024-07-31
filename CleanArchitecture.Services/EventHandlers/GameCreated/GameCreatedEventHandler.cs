@@ -1,7 +1,7 @@
-﻿using MediatR;
-using CleanArchitecture.Domain.EmailSender;
+﻿using CleanArchitecture.Domain.EmailSender;
 using CleanArchitecture.Domain.ValueObjects;
 using CleanArchitecture.Services.Events;
+using MediatR;
 
 namespace CleanArchitecture.Services.EventHandlers.GameCreated;
 

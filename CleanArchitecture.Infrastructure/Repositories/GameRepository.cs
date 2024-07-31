@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
 using CleanArchitecture.Domain.Entities;
 using CleanArchitecture.Domain.Entities.Aggregates;
 using CleanArchitecture.Domain.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace CleanArchitecture.Infrastructure.Repositories;
 
@@ -29,7 +29,7 @@ public class GameRepository(
         var databaseContext = await _databaseContextFactory.CreateDbContextAsync();
         var gameConsole = await databaseContext
             .GamesConsoles
-            .FirstOrDefaultAsync(c => c.Id == gamesConsoleId) 
+            .FirstOrDefaultAsync(c => c.Id == gamesConsoleId)
             ?? throw new Exception("Games console does not exist.");
 
         var gameModels = await databaseContext
@@ -47,8 +47,8 @@ public class GameRepository(
             .Games
             .FirstOrDefaultAsync(x => x.Id == gameId);
 
-        return gameModel is null ? 
-            throw new Exception("Game does not exist.") : 
+        return gameModel is null ?
+            throw new Exception("Game does not exist.") :
             _mapper.Map<Game>(gameModel);
     }
 
@@ -82,7 +82,7 @@ public class GameRepository(
         var databaseContext = await _databaseContextFactory.CreateDbContextAsync();
         var gameModel = await databaseContext
             .Games
-            .FirstOrDefaultAsync(g => g.Id == game.Id) 
+            .FirstOrDefaultAsync(g => g.Id == game.Id)
             ?? throw new Exception("Game does not exist.");
 
         databaseContext.Games.Remove(gameModel);
@@ -98,7 +98,7 @@ public class GameRepository(
             ?? throw new Exception("Game does not exist.");
 
         var updatedGame = _mapper.Map<Models.Game>((gamesConsoleId, game));
-        
+
         existingGameModel.Name = updatedGame.Name;
         existingGameModel.Publisher = updatedGame.Publisher;
         existingGameModel.GamesConsoleId = updatedGame.GamesConsoleId;
@@ -111,7 +111,7 @@ public class GameRepository(
         var databaseContext = await _databaseContextFactory.CreateDbContextAsync();
         var gameToDelete = await databaseContext
             .Games
-            .FirstOrDefaultAsync(g => g.Id == gameId) 
+            .FirstOrDefaultAsync(g => g.Id == gameId)
             ?? throw new Exception("Game does not exist.");
 
         databaseContext.Games.Remove(gameToDelete);

@@ -1,10 +1,10 @@
 ﻿using AutoFixture;
 using AutoFixture.Xunit2;
 using AutoMapper;
-using FluentAssertions;
 using CleanArchitecture.Domain.ValueObjects;
 using CleanArchitecture.Infrastructure.Mappers;
 using CleanArchitecture.Infrastructure.Models;
+using FluentAssertions;
 using GamesConsoleDomain = CleanArchitecture.Domain.Entities.GamesConsole;
 using GamesConsoleModel = CleanArchitecture.Infrastructure.Models.GamesConsole;
 
@@ -32,7 +32,8 @@ public class GamesConsoleProfileTests
     {
         var actual = _mapper.Map<GamesConsoleModel>(gamesConsoleDomain);
 
-        var expected = new GamesConsoleModel { 
+        var expected = new GamesConsoleModel
+        {
             Id = gamesConsoleDomain.Id,
             Name = gamesConsoleDomain.Name,
             Manufacturer = gamesConsoleDomain.Manufacturer,

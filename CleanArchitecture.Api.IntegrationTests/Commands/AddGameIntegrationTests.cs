@@ -34,7 +34,7 @@ public class AddGameIntegrationTests : ApiBaseTests
         var actual = await DbContext.Games.SingleAsync(g => g.GamesConsoleId == existingGamesConsole.Id);
 
         response.StatusCode.Should().Be(HttpStatusCode.Created);
-        actual.Should().BeEquivalentTo(expected, 
+        actual.Should().BeEquivalentTo(expected,
             opts => opts
             .Excluding(g => g.Id)
             .Excluding(g => g.GamesConsole));

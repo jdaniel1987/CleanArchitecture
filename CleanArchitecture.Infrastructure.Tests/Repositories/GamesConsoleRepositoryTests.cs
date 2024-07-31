@@ -1,8 +1,8 @@
 using AutoFixture;
 using AutoFixture.Xunit2;
+using CleanArchitecture.Infrastructure.Repositories;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
-using CleanArchitecture.Infrastructure.Repositories;
 using GamesConsoleDomain = CleanArchitecture.Domain.Entities.GamesConsole;
 using GamesConsoleModel = CleanArchitecture.Infrastructure.Models.GamesConsole;
 

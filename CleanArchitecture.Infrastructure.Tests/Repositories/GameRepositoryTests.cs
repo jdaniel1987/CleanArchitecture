@@ -1,12 +1,12 @@
 using AutoFixture;
 using AutoFixture.Xunit2;
-using FluentAssertions;
-using Microsoft.EntityFrameworkCore;
-using System.Collections.Immutable;
 using CleanArchitecture.Domain.Entities.Aggregates;
 using CleanArchitecture.Infrastructure;
 using CleanArchitecture.Infrastructure.Repositories;
 using CleanArchitecture.Infrastructure.Tests.Repositories;
+using FluentAssertions;
+using Microsoft.EntityFrameworkCore;
+using System.Collections.Immutable;
 using GameDomain = CleanArchitecture.Domain.Entities.Game;
 using GameModel = CleanArchitecture.Infrastructure.Models.Game;
 using GamesConsoleDomain = CleanArchitecture.Domain.Entities.GamesConsole;

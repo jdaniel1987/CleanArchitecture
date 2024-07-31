@@ -1,8 +1,8 @@
 ﻿using AutoFixture.Xunit2;
-using Moq;
 using CleanArchitecture.Domain.EmailSender;
 using CleanArchitecture.Domain.ValueObjects;
 using CleanArchitecture.Services.Events;
+using Moq;
 
 namespace CleanArchitecture.Services.EventHandlers.GameCreated;
 

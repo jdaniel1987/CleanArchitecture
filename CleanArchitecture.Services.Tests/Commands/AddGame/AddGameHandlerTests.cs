@@ -1,13 +1,13 @@
 ﻿using AutoFixture.Xunit2;
 using AutoMapper;
-using FluentAssertions;
-using MediatR;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Moq;
 using CleanArchitecture.Domain.Entities;
 using CleanArchitecture.Domain.Repositories;
 using CleanArchitecture.Services.Commands.AddGame;
 using CleanArchitecture.Services.Events;
+using FluentAssertions;
+using MediatR;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Moq;
 
 namespace CleanArchitecture.Services.Tests.Commands.AddGame;
 
@@ -52,7 +52,7 @@ public class AddGameHandlerTests
         );
         mapperMock.Setup(x => x.Map<Game>(addGameCommand)).Returns(mappedGame);
 
-        var action  = async () => await handler.Handle(addGameCommand, CancellationToken.None);
+        var action = async () => await handler.Handle(addGameCommand, CancellationToken.None);
 
         await action.Should().ThrowAsync<Exception>("Console does not exist.");
     }

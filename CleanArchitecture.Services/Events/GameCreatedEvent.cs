@@ -1,5 +1,5 @@
-﻿using MediatR;
-using CleanArchitecture.Domain.Entities;
+﻿using CleanArchitecture.Domain.Entities;
+using MediatR;
 
 namespace CleanArchitecture.Services.Events;
 

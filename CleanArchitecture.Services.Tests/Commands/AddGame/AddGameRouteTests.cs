@@ -23,5 +23,5 @@ public class AddGameRouteTests
 
             mockMediator.Verify(m => m.Send(addGameCommand, default), Times.Once);
         }
-    }   
+    }
 }

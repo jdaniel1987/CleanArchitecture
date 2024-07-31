@@ -1,9 +1,9 @@
-using AutoFixture.Xunit2;
 using AutoFixture;
+using AutoFixture.Xunit2;
 using AutoMapper;
+using CleanArchitecture.Domain.Entities;
 using CleanArchitecture.Domain.ValueObjects;
 using CleanArchitecture.Services.Commands.AddGame;
-using CleanArchitecture.Domain.Entities;
 using FluentAssertions;
 
 namespace CleanArchitecture.Services.Tests.Commands.AddGame;

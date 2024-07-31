@@ -1,9 +1,9 @@
 ﻿using Carter;
+using CleanArchitecture.Domain.Entities;
 using MediatR;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using CleanArchitecture.Domain.Entities;
+using Microsoft.AspNetCore.Routing;
 
 namespace CleanArchitecture.Services.Commands.DeleteGamesConsole;
 

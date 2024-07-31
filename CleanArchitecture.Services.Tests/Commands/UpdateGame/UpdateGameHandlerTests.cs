@@ -1,11 +1,11 @@
 ﻿using AutoFixture.Xunit2;
 using AutoMapper;
-using FluentAssertions;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Moq;
 using CleanArchitecture.Domain.Entities;
 using CleanArchitecture.Domain.Repositories;
 using CleanArchitecture.Services.Commands.UpdateGame;
+using FluentAssertions;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Moq;
 
 namespace CleanArchitecture.Services.Tests.Commands.UpdateGame;
 

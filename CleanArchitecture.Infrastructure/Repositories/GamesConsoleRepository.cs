@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
 using CleanArchitecture.Domain.Entities;
 using CleanArchitecture.Domain.Repositories;
+using Microsoft.EntityFrameworkCore;
 
 namespace CleanArchitecture.Infrastructure.Repositories;
 
@@ -59,10 +59,10 @@ public class GamesConsoleRepository(
 
     public async Task DeleteGamesConsole(int gamesConsoleId)
     {
-       var databaseContext = await _databaseContextFactory.CreateDbContextAsync();
+        var databaseContext = await _databaseContextFactory.CreateDbContextAsync();
         var gamesConsoleToDelete = await databaseContext
             .GamesConsoles
-            .FirstOrDefaultAsync(g => g.Id == gamesConsoleId) 
+            .FirstOrDefaultAsync(g => g.Id == gamesConsoleId)
             ?? throw new Exception("Games console does not exist.");
 
         databaseContext.GamesConsoles.Remove(gamesConsoleToDelete);

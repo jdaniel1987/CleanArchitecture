@@ -1,10 +1,10 @@
 ﻿using AutoFixture;
 using AutoFixture.Xunit2;
 using AutoMapper;
-using FluentAssertions;
 using CleanArchitecture.Domain.Entities.Aggregates;
 using CleanArchitecture.Domain.ValueObjects;
 using CleanArchitecture.Infrastructure.Mappers;
+using FluentAssertions;
 using GameDomain = CleanArchitecture.Domain.Entities.Game;
 using GameModel = CleanArchitecture.Infrastructure.Models.Game;
 using GamesConsoleDomain = CleanArchitecture.Domain.Entities.GamesConsole;

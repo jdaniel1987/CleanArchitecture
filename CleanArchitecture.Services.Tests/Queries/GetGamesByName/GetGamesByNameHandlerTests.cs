@@ -1,10 +1,10 @@
 ﻿using AutoFixture;
 using AutoFixture.Xunit2;
-using FluentAssertions;
-using Moq;
 using CleanArchitecture.Domain.Entities.Aggregates;
 using CleanArchitecture.Domain.Repositories;
 using CleanArchitecture.Services.Queries.GetGamesByName;
+using FluentAssertions;
+using Moq;
 
 namespace CleanArchitecture.Services.Tests.Queries.GetGamesByName;
 

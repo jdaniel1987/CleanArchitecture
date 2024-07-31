@@ -1,9 +1,9 @@
 ﻿using Carter;
+using CleanArchitecture.Domain.Entities.Aggregates;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
-using CleanArchitecture.Domain.Entities.Aggregates;
 
 namespace CleanArchitecture.Services.Queries.GetGamesByName;
 

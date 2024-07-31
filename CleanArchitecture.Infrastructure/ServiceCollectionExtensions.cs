@@ -1,15 +1,15 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using System.Reflection;
-using CleanArchitecture.Domain.EmailSender;
+﻿using CleanArchitecture.Domain.EmailSender;
 using CleanArchitecture.Domain.Repositories;
 using CleanArchitecture.Infrastructure.EmailSender;
 using CleanArchitecture.Infrastructure.Repositories;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 
 namespace CleanArchitecture.Infrastructure;
 
 public static class ServiceCollectionExtensions
-{    
+{
     public static void AddInfrastructure(this IServiceCollection services)
     {
         services.AddTransient<IEmailSender, FakeEmailSender>();

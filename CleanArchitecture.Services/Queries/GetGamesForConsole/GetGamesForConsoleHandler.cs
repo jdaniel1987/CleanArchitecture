@@ -1,5 +1,5 @@
-﻿using MediatR;
-using CleanArchitecture.Domain.Repositories;
+﻿using CleanArchitecture.Domain.Repositories;
+using MediatR;
 
 namespace CleanArchitecture.Services.Queries.GetGamesForConsole;
 

@@ -1,9 +1,9 @@
 ﻿using AutoFixture.Xunit2;
-using FluentAssertions;
-using Moq;
 using CleanArchitecture.Domain.Entities.Aggregates;
 using CleanArchitecture.Domain.Repositories;
 using CleanArchitecture.Services.Queries.GetAllGames;
+using FluentAssertions;
+using Moq;
 
 namespace CleanArchitecture.Services.Tests.Queries.GetAllGames;
 

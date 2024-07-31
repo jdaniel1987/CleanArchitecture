@@ -1,6 +1,5 @@
 ﻿using AutoMapper;
 using CleanArchitecture.Domain.Entities;
-using CleanArchitecture.Domain.Entities.Aggregates;
 using CleanArchitecture.Domain.ValueObjects;
 
 namespace CleanArchitecture.Infrastructure.Mappers;

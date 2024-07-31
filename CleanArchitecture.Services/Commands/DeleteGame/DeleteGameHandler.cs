@@ -1,6 +1,6 @@
-﻿using MediatR;
+﻿using CleanArchitecture.Domain.Repositories;
+using MediatR;
 using Microsoft.AspNetCore.Http;
-using CleanArchitecture.Domain.Repositories;
 
 namespace CleanArchitecture.Services.Commands.DeleteGame;
 

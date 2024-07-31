@@ -1,7 +1,7 @@
 ﻿using AutoFixture.Xunit2;
+using CleanArchitecture.Infrastructure.EmailSender;
 using Microsoft.Extensions.Logging;
 using Moq;
-using CleanArchitecture.Infrastructure.EmailSender;
 
 namespace CleanArchitecture.Infrastructure.Tests.EmailSender;
 

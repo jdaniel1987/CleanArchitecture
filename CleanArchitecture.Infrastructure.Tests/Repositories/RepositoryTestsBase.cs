@@ -1,7 +1,7 @@
 ﻿using AutoFixture;
 using AutoMapper;
-using Microsoft.EntityFrameworkCore;
 using CleanArchitecture.Infrastructure.Mappers;
+using Microsoft.EntityFrameworkCore;
 using Moq;
 
 namespace CleanArchitecture.Infrastructure.Tests.Repositories;

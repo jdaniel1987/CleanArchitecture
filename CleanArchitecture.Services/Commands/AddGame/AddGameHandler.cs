@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
-using MediatR;
-using Microsoft.AspNetCore.Http;
 using CleanArchitecture.Domain.Repositories;
 using CleanArchitecture.Services.Events;
+using MediatR;
+using Microsoft.AspNetCore.Http;
 
 namespace CleanArchitecture.Services.Commands.AddGame;
 

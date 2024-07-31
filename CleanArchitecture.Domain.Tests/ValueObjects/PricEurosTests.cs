@@ -1,6 +1,6 @@
 using AutoFixture.Xunit2;
-using FluentAssertions;
 using CleanArchitecture.Domain.ValueObjects;
+using FluentAssertions;
 
 namespace CleanArchitecture.Domain.Tests.ValueObjects;
 
